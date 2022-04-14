@@ -512,7 +512,3 @@ export const loadAMDModule = async <T>(amdPath: string, exportName: string): Pro
 
   return module[exportName] as T
 }
-
-export default function isTokenValid( token: string) {
-
-}
