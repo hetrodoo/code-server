@@ -1,15 +1,15 @@
-import { field, logger } from "@coder/logger";
-import http from "http";
-import * as os from "os";
-import path from "path";
-import { Disposable } from "../common/emitter";
-import { plural } from "../common/util";
-import { createApp, ensureAddress } from "./app";
-import { AuthType, DefaultedArgs, Feature, SpawnCodeCli, toCodeArgs, UserProvidedArgs } from "./cli";
-import { coderCloudBind } from "./coder_cloud";
-import { commit, version } from "./constants";
-import { register } from "./routes";
-import { humanPath, isFile, loadAMDModule, open } from "./util";
+import { field, logger } from "@coder/logger"
+import http from "http"
+import * as os from "os"
+import path from "path"
+import { Disposable } from "../common/emitter"
+import { plural } from "../common/util"
+import { createApp, ensureAddress } from "./app"
+import { AuthType, DefaultedArgs, Feature, SpawnCodeCli, toCodeArgs, UserProvidedArgs } from "./cli"
+import { coderCloudBind } from "./coder_cloud"
+import { commit, version } from "./constants"
+import { register } from "./routes"
+import { humanPath, isFile, loadAMDModule, open } from "./util"
 
 /**
  * Return true if the user passed an extension-related VS Code flag.
