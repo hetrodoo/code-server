@@ -27,7 +27,7 @@ export const validateAuthToken = async (token: string, authInstance: Auth): Prom
     const user = await authInstance.verifyIdToken(token)
     const expireDate = new Date()
 
-    expireDate.setMinutes(30 + expireDate.getMinutes())
+    expireDate.setMinutes(5 + expireDate.getMinutes())
     cache.set(token, { expireDate, user })
     return user
   } catch {
