@@ -21,7 +21,6 @@ export interface App extends Disposable {
   /** The underlying HTTP server. */
   server: http.Server
 }
-
 export const listen = async (server: http.Server, { host, port, socket, "socket-mode": mode }: ListenOptions) => {
   if (socket) {
     try {

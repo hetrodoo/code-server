@@ -20,6 +20,8 @@ import { getMediaMime, paths } from "../util"
 import * as apps from "./apps"
 import * as domainProxy from "./domainProxy"
 import { errorHandler, wsErrorHandler } from "./errors"
+import * as firebaseLogin from "./firebase-login"
+import * as firebaseLogout from "./firebase-logout"
 import * as health from "./health"
 import * as login from "./login"
 import * as logout from "./logout"
@@ -143,12 +145,19 @@ export const register = async (app: App, args: DefaultedArgs): Promise<Disposabl
   app.router.use("/healthz", health.router)
   app.wsRouter.use("/healthz", health.wsRouter.router)
 
-  if (args.auth === AuthType.Password) {
-    app.router.use("/login", login.router)
-    app.router.use("/logout", logout.router)
-  } else {
-    app.router.all("/login", (req, res) => redirect(req, res, "/", {}))
-    app.router.all("/logout", (req, res) => redirect(req, res, "/", {}))
+  switch (args.auth) {
+    case AuthType.Password:
+      app.router.use("/login", login.router)
+      app.router.use("/logout", logout.router)
+      break
+    case AuthType.Firebase:
+      app.router.use("/login", firebaseLogin.router)
+      app.router.use("/logout", firebaseLogout.router)
+      break
+    case AuthType.None:
+    default:
+      app.router.all("/login", (req, res) => redirect(req, res, "/", {}))
+      app.router.all("/logout", (req, res) => redirect(req, res, "/", {}))
   }
 
   app.router.use("/update", update.router)

@@ -14,6 +14,7 @@ export enum Feature {
 
 export enum AuthType {
   Password = "password",
+  Firebase = "firebase",
   None = "none",
 }
 
@@ -49,7 +50,6 @@ export interface UserProvidedCodeArgs {
   category?: string
   "github-auth"?: string
   "disable-update-check"?: boolean
-  "disable-file-downloads"?: boolean
 }
 
 /**
@@ -84,6 +84,13 @@ export interface UserProvidedArgs extends UserProvidedCodeArgs {
   "ignore-last-opened"?: boolean
   link?: OptionalString
   verbose?: boolean
+  "allowed-emails"?: string
+  "firebase-api-key"?: string
+  "firebase-auth-domain"?: string
+  "firebase-project-id"?: string
+  "firebase-storage-bucket"?: string
+  "firebase-messaging-sender-id"?: string
+  "firebase-app-id"?: string
   /* Positional arguments. */
   _?: string[]
 }
@@ -157,10 +164,6 @@ export const options: Options<Required<UserProvidedArgs>> = {
     description:
       "Disable update check. Without this flag, code-server checks every 6 hours against the latest github release and \n" +
       "then notifies you once every week that a new release is available.",
-  },
-  "disable-file-downloads": {
-    type: "boolean",
-    description: "Disable file downloads from Code.",
   },
   // --enable can be used to enable experimental features. These features
   // provide no guarantees.
@@ -241,6 +244,36 @@ export const options: Options<Required<UserProvidedArgs>> = {
       Authorization is done via GitHub.
     `,
     deprecated: true,
+  },
+
+  "allowed-emails": {
+    type: "string",
+    description: "The allowed emails to log-in using Login With Google.",
+  },
+
+  "firebase-api-key": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-auth-domain": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-project-id": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-storage-bucket": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-messaging-sender-id": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-app-id": {
+    type: "string",
+    description: "Firebase credentials.",
   },
 }
 
@@ -540,10 +573,6 @@ export async function setDefaults(cliArgs: UserProvidedArgs, configArgs?: Config
   let usingEnvPassword = !!process.env.PASSWORD
   if (process.env.PASSWORD) {
     args.password = process.env.PASSWORD
-  }
-
-  if (process.env.CS_DISABLE_FILE_DOWNLOADS === "1") {
-    args["disable-file-downloads"] = true
   }
 
   const usingEnvHashedPassword = !!process.env.HASHED_PASSWORD

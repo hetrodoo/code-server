@@ -32,6 +32,14 @@ button {
   text-decoration: none;
 }
 
+.-button-red {
+  background-color: rgb(219, 68, 55);
+}
+
+.-button-black {
+  background-color: rgb(0, 0, 0);
+}
+
 .center-container {
   align-items: center;
   box-sizing: border-box;
