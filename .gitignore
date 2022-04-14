@@ -13,6 +13,7 @@ node_modules
 .home
 coverage
 **/.DS_Store
+.idea
 
 # Code packages itself here.
 /lib/vscode-reh-web-*
