@@ -14,6 +14,7 @@ export enum Feature {
 
 export enum AuthType {
   Password = "password",
+  Firebase = "firebase",
   None = "none",
 }
 
@@ -84,6 +85,13 @@ export interface UserProvidedArgs extends UserProvidedCodeArgs {
   "ignore-last-opened"?: boolean
   link?: OptionalString
   verbose?: boolean
+  "allowed-emails"?: string
+  "firebase-api-key"?: string
+  "firebase-auth-domain"?: string
+  "firebase-project-id"?: string
+  "firebase-storage-bucket"?: string
+  "firebase-messaging-sender-id"?: string
+  "firebase-app-id"?: string
   /* Positional arguments. */
   _?: string[]
 }
@@ -241,6 +249,36 @@ export const options: Options<Required<UserProvidedArgs>> = {
       Authorization is done via GitHub.
     `,
     deprecated: true,
+  },
+
+  "allowed-emails": {
+    type: "string",
+    description: "The allowed emails to log-in using Login With Google.",
+  },
+
+  "firebase-api-key": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-auth-domain": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-project-id": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-storage-bucket": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-messaging-sender-id": {
+    type: "string",
+    description: "Firebase credentials.",
+  },
+  "firebase-app-id": {
+    type: "string",
+    description: "Firebase credentials.",
   },
 }
 

@@ -9,6 +9,7 @@ import { CookieKeys, HttpCode, HttpError } from "../common/http"
 import { normalize } from "../common/util"
 import { AuthType, DefaultedArgs } from "./cli"
 import { version as codeServerVersion } from "./constants"
+import * as firebase from "./firebase"
 import { Heart } from "./heart"
 import { CoderSettings, SettingsProvider } from "./settings"
 import { UpdateProvider } from "./update"
@@ -104,6 +105,27 @@ export const authenticated = async (req: express.Request): Promise<boolean> => {
       }
 
       return await isCookieValid(isCookieValidArgs)
+    }
+    case AuthType.Firebase: {
+      try {
+        const token = req.cookies[CookieKeys.Token]
+        if (!token) return false
+
+        firebase.getAppInstance(() => firebase.buildCredentials(req))
+        const auth = firebase.getAuthInstance()
+
+        const user = await firebase.validateAuthToken(token, auth)
+
+        if (user) {
+          const emails = (req.args["allowed-emails"] || "").split(",")
+          return emails.includes(user.email || "")
+        } else {
+          return false
+        }
+      } catch (e) {
+        console.error(e)
+        return false
+      }
     }
     default: {
       throw new Error(`Unsupported auth type ${req.args.auth}`)

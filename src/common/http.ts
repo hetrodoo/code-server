@@ -21,4 +21,5 @@ export class HttpError extends Error {
 
 export enum CookieKeys {
   Session = "code-server-session",
+  Token = "code-server-token",
 }

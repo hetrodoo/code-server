@@ -132,9 +132,11 @@ export const runCodeServer = async (
     }`,
   )
 
-  if (args.auth === AuthType.Password) {
+  if (args.auth === AuthType.Password || args.auth === AuthType.Firebase) {
     logger.info("  - Authentication is enabled")
-    if (args.usingEnvPassword) {
+    if (args.auth === AuthType.Firebase) {
+      logger.info("  - Authentication is being handled through firebase")
+    } else if (args.usingEnvPassword) {
       logger.info("    - Using password from $PASSWORD")
     } else if (args.usingEnvHashedPassword) {
       logger.info("    - Using password from $HASHED_PASSWORD")
